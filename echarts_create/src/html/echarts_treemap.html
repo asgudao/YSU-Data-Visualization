@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts 树状图 - 企业属性分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #chart {
+            flex: 1;
+            width: 100%;
+        }
+        .title {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <i class="fas fa-sitemap"></i> 企业属性对招聘策略的层次化影响分析
+        </div>
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        // 树状图数据
+        const data = [
+            {
+                name: '民营企业',
+                value: 66318,
+                avg_salary: 14200,
+                children: [
+                    {name: '少于50人', value: 12345, avg_salary: 11200, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value: 18765, avg_salary: 13500, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value: 15678, avg_salary: 14800, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 8765, avg_salary: 16200, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value: 7654, avg_salary: 17500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value: 2345, avg_salary: 19200, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value: 1066, avg_salary: 22800, itemStyle: {color: '#E67E22'}}
+                ]
+            },
+            {
+                name: '国企',
+                value: 10028,
+                avg_salary: 16500,
+                children: [
+                    {name: '少于50人', value: 1234, avg_salary: 13200, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value: 2345, avg_salary: 14800, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value: 2678, avg_salary: 16200, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 1876, avg_salary: 17500, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value: 1234, avg_salary: 18800, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value: 456, avg_salary: 20500, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value: 205, avg_salary: 24500, itemStyle: {color: '#E67E22'}}
+                ]
+            },
+            {
+                name: '已上市',
+                value: 12472,
+                avg_salary: 19800,
+                children: [
+                    {name: '少于50人', value: 876, avg_salary: 16500, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value: 2345, avg_salary: 18200, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value: 3456, avg_salary: 19500, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 2678, avg_salary: 20800, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value: 1876, avg_salary: 22500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value: 876, avg_salary: 24800, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value: 365, avg_salary": 28500, itemStyle: {color: '#E67E22'}}
+                ]
+            },
+            {
+                name: '外资（欧美）',
+                value: 6739,
+                avg_salary: 24500,
+                children: [
+                    {name: '少于50人', value: 567, avg_salary: 19800, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value: 1234, avg_salary: 22500, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value: 1876, avg_salary": 24800, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 1567, avg_salary": 26500, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value": 987, avg_salary": 28500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value": 345, avg_salary": 32000, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value": 163, avg_salary": 38000, itemStyle: {color: '#E67E22'}}
+                ]
+            },
+            {
+                name: '外资（非欧美）',
+                value: 6418,
+                avg_salary: 22800,
+                children: [
+                    {name: '少于50人', value": 654, avg_salary": 18500, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value": 1456, avg_salary": 20800, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value": 1765, avg_salary": 23200, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value": 1234, avg_salary": 24800, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value": 876, avg_salary": 26500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value": 345, avg_salary": 29500, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value": 88, avg_salary": 35000, itemStyle: {color: '#E67E22'}}
+                ]
+            }
+        ];
+
+        // 初始化图表
+        const chart = echarts.init(document.getElementById('chart'));
+
+        // 配置选项
+        const option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return `<strong>${params.data.name}</strong><br/>
+                            岗位数量: ${params.data.value}<br/>
+                            平均薪资: ${params.data.avg_salary}元`;
+                }
+            },
+            series: [{
+                type: 'treemap',
+                data: data,
+                roam: false,
+                nodeClick: false,
+                breadcrumb: {
+                    show: true,
+                    top: 10,
+                    left: 10,
+                    itemStyle: {
+                        color: '#2C3E50',
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                label: {
+                    show: true,
+                    formatter: function (params) {
+                        return params.data.name + '\n' + params.data.value + '岗位';
+                    },
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                upperLabel: {
+                    show: true,
+                    height: 30,
+                    fontSize: 14,
+                    color: '#fff'
+                },
+                itemStyle: {
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    gapWidth: 2
+                },
+                levels: [
+                    {
+                        itemStyle: {
+                            borderWidth: 0,
+                            gapWidth: 2
+                        }
+                    },
+                    {
+                        itemStyle: {
+                            borderWidth: 2,
+                            gapWidth: 1
+                        }
+                    }
+                ]
+            }]
+        };
+
+        // 设置配置项
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>

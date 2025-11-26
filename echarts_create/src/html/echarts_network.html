@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts 网络图 - IT行业城市-职位关系</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #chart {
+            flex: 1;
+            width: 100%;
+        }
+        .title {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <i class="fas fa-network-wired"></i> IT行业城市-职位网络关系图
+        </div>
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        // 网络图数据
+        const nodes = [
+            // 城市节点 (类别0)
+            {"id": "上海", "name": "上海", "category": 0, "value": 19190, "symbolSize": 50, "avg_salary": 18500},
+            {"id": "深圳", "name": "深圳", "category": 0, "value": 15979, "symbolSize": 45, "avg_salary": 19200},
+            {"id": "广州", "name": "广州", "category": 0, "value": 11318, "symbolSize": 38, "avg_salary": 16800},
+            {"id": "北京", "name": "北京", "category": 0, "value": 6571, "symbolSize": 30, "avg_salary": 22000},
+            {"id": "杭州", "name": "杭州", "category": 0, "value": 5478, "symbolSize": 28, "avg_salary": 17500},
+            {"id": "南京", "name": "南京", "category": 0, "value": 3456, "symbolSize": 22, "avg_salary": 15200},
+            {"id": "成都", "name": "成都", "category": 0, "value": 2890, "symbolSize": 20, "avg_salary": 13800},
+            {"id": "武汉", "name": "武汉", "category": 0, "value": 2345, "symbolSize": 18, "avg_salary": 13200},
+            {"id": "西安", "name": "西安", "category": 0, "value": 1987, "symbolSize": 16, "avg_salary": 12800},
+            {"id": "苏州", "name": "苏州", "category": 0, "value": 1765, "symbolSize": 15, "avg_salary": 14500},
+            
+            // 职位类别节点 (类别1)
+            {"id": "后端开发", "name": "后端开发", "category": 1, "value": 23212, "symbolSize": 48, "avg_salary": 18500},
+            {"id": "运维/技术支持", "name": "运维/技术支持", "category": 1, "value": 24629, "symbolSize": 50, "avg_salary": 16200},
+            {"id": "测试", "name": "测试", "category": 1, "value": 18187, "symbolSize": 42, "avg_salary": 15800},
+            {"id": "技术管理", "name": "技术管理", "category": 1, "value": 16792, "symbolSize": 40, "avg_salary": 25000},
+            {"id": "前端/移动开发", "name": "前端/移动开发", "category": 1, "value": 4729, "symbolSize": 25, "avg_salary": 16800},
+            {"id": "人工智能", "name": "人工智能", "category": 1, "value": 9118, "symbolSize": 32, "avg_salary": 32000},
+            {"id": "数据", "name": "数据", "category": 1, "value": 4365, "symbolSize": 24, "avg_salary": 28500},
+            {"id": "销售技术支持", "name": "销售技术支持", "category": 1, "value": 9144, "symbolSize": 32, "avg_salary": 14500}
+        ];
+
+        const edges = [
+            {"source": "上海", "target": "后端开发", "value": 3456, "lineStyle": {"width": 8}},
+            {"source": "上海", "target": "运维/技术支持", "value": 2890, "lineStyle": {"width": 7}},
+            {"source": "上海", "target": "测试", "value": 2345, "lineStyle": {"width": 6}},
+            {"source": "上海", "target": "人工智能", "value": 1876, "lineStyle": {"width": 5}},
+            {"source": "上海", "target": "数据", "value": 1234, "lineStyle": {"width": 4}},
+            {"source": "深圳", "target": "后端开发", "value": 3210, "lineStyle": {"width": 8}},
+            {"source": "深圳", "target": "前端/移动开发", "value": 1876, "lineStyle": {"width": 5}},
+            {"source": "深圳", "target": "人工智能", "value": 2345, "lineStyle": {"width": 6}},
+            {"source": "深圳", "target": "测试", "value": 1987, "lineStyle": {"width": 5}},
+            {"source": "广州", "target": "后端开发", "value": 2345, "lineStyle": {"width": 6}},
+            {"source": "广州", "target": "运维/技术支持", "value": 1876, "lineStyle": {"width": 5}},
+            {"source": "广州", "target": "销售技术支持", "value": 1567, "lineStyle": {"width": 4}},
+            {"source": "北京", "target": "技术管理", "value": 1876, "lineStyle": {"width": 5}},
+            {"source": "北京", "target": "后端开发", "value": 1654, "lineStyle": {"width": 4}},
+            {"source": "北京", "target": "人工智能", "value": 1987, "lineStyle": {"width": 5}},
+            {"source": "杭州", "target": "前端/移动开发", "value": 1234, "lineStyle": {"width": 4}},
+            {"source": "杭州", "target": "数据", "value": 987, "lineStyle": {"width": 3}},
+            {"source": "杭州", "target": "后端开发", "value": 1456, "lineStyle": {"width": 4}}
+        ];
+
+        // 初始化图表
+        const chart = echarts.init(document.getElementById('chart'));
+
+        // 配置选项
+        const option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    if (params.dataType === 'node') {
+                        return `<strong>${params.data.name}</strong><br/>
+                                岗位数量: ${params.data.value}<br/>
+                                平均薪资: ${params.data.avg_salary}元`;
+                    } else {
+                        return `<strong>${params.data.source} → ${params.data.target}</strong><br/>
+                                连接强度: ${params.data.value}`;
+                    }
+                }
+            },
+            legend: {
+                data: ['城市', '职位类别'],
+                orient: 'vertical',
+                left: 'left',
+                top: 'bottom'
+            },
+            series: [{
+                type: 'graph',
+                layout: 'force',
+                data: nodes,
+                links: edges,
+                categories: [
+                    {
+                        name: '城市',
+                        itemStyle: {
+                            color: '#2C3E50'
+                        }
+                    },
+                    {
+                        name: '职位类别',
+                        itemStyle: {
+                            color: '#E74C3C'
+                        }
+                    }
+                ],
+                roam: true,
+                label: {
+                    show: true,
+                    position: 'right',
+                    fontSize: 12
+                },
+                force: {
+                    repulsion: 1000,
+                    gravity: 0.1,
+                    edgeLength: 200,
+                    layoutAnimation: true
+                },
+                lineStyle: {
+                    color: 'source',
+                    curveness: 0.3,
+                    opacity: 0.7
+                },
+                emphasis: {
+                    focus: 'adjacency',
+                    lineStyle: {
+                        width: 10
+                    }
+                }
+            }]
+        };
+
+        // 设置配置项
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>
