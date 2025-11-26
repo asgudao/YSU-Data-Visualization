@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts 桑基图 - 新兴与传统岗位流向分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #chart {
+            flex: 1;
+            width: 100%;
+        }
+        .title {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <i class="fas fa-exchange-alt"></i> 新兴岗位与传统岗位的招聘趋势流向分析
+        </div>
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        // 桑基图数据
+        const data = {
+            nodes: [
+                {name: '后端开发', itemStyle: {color: '#2C3E50'}},
+                {name: '前端/移动开发', itemStyle: {color: '#2C3E50'}},
+                {name: '测试', itemStyle: {color: '#2C3E50'}},
+                {name: '运维/技术支持', itemStyle: {color: '#2C3E50'}},
+                {name: '人工智能', itemStyle: {color: '#27AE60'}},
+                {name: '数据', itemStyle: {color: '#27AE60'}},
+                {name: 'Java开发工程师', itemStyle: {color: '#E74C3C'}},
+                {name: 'Python开发工程师', itemStyle: {color: '#E74C3C'}},
+                {name: '前端开发工程师', itemStyle: {color: '#E74C3C'}},
+                {name: '测试工程师', itemStyle: {color: '#E74C3C'}},
+                {name: '运维工程师', itemStyle: {color: '#E74C3C'}},
+                {name: '算法工程师', itemStyle: {color: '#F39C12'}},
+                {name: '数据分析师', itemStyle: {color: '#F39C12'}},
+                {name: '大数据工程师', itemStyle: {color: '#F39C12'}}
+            ],
+            links: [
+                {source: '后端开发', target: 'Java开发工程师', value: 8765, avg_salary: 18500},
+                {source: '后端开发', target: 'Python开发工程师', value: 6543, avg_salary: 19200},
+                {source: '前端/移动开发', target: '前端开发工程师', value: 4729, avg_salary: 16800},
+                {source: '测试', target: '测试工程师', value: 7234, avg_salary: 15800},
+                {source: '运维/技术支持', target: '运维工程师', value: 6789, avg_salary: 16200},
+                {source: '人工智能', target: '算法工程师', value: 4567, avg_salary: 35000},
+                {source: '数据', target: '数据分析师', value: 2345, avg_salary: 24500},
+                {source: '数据', target: '大数据工程师', value: 2020, avg_salary: 28500},
+                {source: '后端开发', target: '算法工程师', value: 876, avg_salary: 32000},
+                {source: '前端/移动开发', target: '大数据工程师', value: 345, avg_salary: 26800}
+            ]
+        };
+
+        // 初始化图表
+        const chart = echarts.init(document.getElementById('chart'));
+
+        // 配置选项
+        const option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                    if (params.dataType === 'edge') {
+                        return `<strong>${params.data.source} → ${params.data.target}</strong><br/>
+                                岗位数量: ${params.data.value}<br/>
+                                平均薪资: ${params.data.avg_salary}元`;
+                    } else {
+                        return `<strong>${params.name}</strong>`;
+                    }
+                }
+            },
+            series: [{
+                type: 'sankey',
+                data: data.nodes,
+                links: data.links,
+                emphasis: {
+                    focus: 'adjacency'
+                },
+                levels: [
+                    {
+                        depth: 0,
+                        itemStyle: {
+                            color: '#2C3E50',
+                            borderWidth: 0,
+                            borderColor: '#aaa'
+                        },
+                        lineStyle: {
+                            color: 'source',
+                            curveness: 0.5,
+                            opacity: 0.7
+                        }
+                    },
+                    {
+                        depth: 1,
+                        itemStyle: {
+                            color: '#E74C3C',
+                            borderWidth: 0,
+                            borderColor: '#aaa'
+                        },
+                        lineStyle: {
+                            color: 'source',
+                            curveness: 0.5,
+                            opacity: 0.7
+                        }
+                    }
+                ],
+                lineStyle: {
+                    color: 'gradient',
+                    curveness: 0.5,
+                    opacity: 0.7
+                },
+                label: {
+                    position: 'right',
+                    fontSize: 12
+                },
+                itemStyle: {
+                    borderWidth: 1,
+                    borderColor: '#fff'
+                },
+                layoutIterations: 64
+            }]
+        };
+
+        // 设置配置项
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>

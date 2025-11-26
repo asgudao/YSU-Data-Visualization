@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts 旭日图 - IT行业岗位分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #chart {
+            flex: 1;
+            width: 100%;
+        }
+        .title {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <i class="fas fa-sun"></i> IT行业岗位类型与人才要求层次关系分析
+        </div>
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        // 旭日图数据
+        const data = {
+            "name": "IT行业岗位分析",
+            "children": [
+                {
+                    "name": "软件工程师",
+                    "value": 15234,
+                    "children": [
+                        {
+                            "name": "本科",
+                            "value": 8934,
+                            "children": [
+                                {"name": "无需经验", "value": 1234, "avg_salary": 8500, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 2345, "avg_salary": 12000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 3456, "avg_salary": 18000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 1899, "avg_salary": 25000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "大专",
+                            "value": 4321,
+                            "children": [
+                                {"name": "无需经验", "value": 876, "avg_salary": 7500, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 1234, "avg_salary": 10000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 1456, "avg_salary": 15000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 755, "avg_salary": 20000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "硕士",
+                            "value": 1979,
+                            "children": [
+                                {"name": "无需经验", "value": 234, "avg_salary": 12000, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 456, "avg_salary": 18000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 789, "avg_salary": 28000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 500, "avg_salary": 35000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "测试工程师",
+                    "value": 8765,
+                    "children": [
+                        {
+                            "name": "本科",
+                            "value": 5432,
+                            "children": [
+                                {"name": "无需经验", "value": 654, "avg_salary": 8000, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 1234, "avg_salary": 11000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 2134, "avg_salary": 16000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 1410, "avg_salary": 22000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "大专",
+                            "value": 2456,
+                            "children": [
+                                {"name": "无需经验", "value": 456, "avg_salary": 7000, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 789, "avg_salary": 9500, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 876, "avg_salary": 14000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 335, "avg_salary": 19000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "硕士",
+                            "value": 877,
+                            "children": [
+                                {"name": "无需经验", "value": 123, "avg_salary": 10000, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 234, "avg_salary": 15000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 345, "avg_salary": 24000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 175, "avg_salary": 30000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "运维工程师",
+                    "value": 7234,
+                    "children": [
+                        {
+                            "name": "本科",
+                            "value": 4567,
+                            "children": [
+                                {"name": "无需经验", "value": 567, "avg_salary": 8500, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 1123, "avg_salary": 12500, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 1789, "avg_salary": 17500, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 1088, "avg_salary": 24000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "大专",
+                            "value": 2134,
+                            "children": [
+                                {"name": "无需经验", "value": 345, "avg_salary": 7500, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 678, "avg_salary": 10500, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 789, "avg_salary": 15500, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 322, "avg_salary": 21000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        },
+                        {
+                            "name": "硕士",
+                            "value": 533,
+                            "children": [
+                                {"name": "无需经验", "value": 89, "avg_salary": 11000, "itemStyle": {"color": "#2C3E50"}},
+                                {"name": "1年及以上", "value": 156, "avg_salary": 16000, "itemStyle": {"color": "#E74C3C"}},
+                                {"name": "3年及以上", "value": 234, "avg_salary": 25000, "itemStyle": {"color": "#27AE60"}},
+                                {"name": "5年及以上", "value": 54, "avg_salary": 32000, "itemStyle": {"color": "#F39C12"}}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 初始化图表
+        const chart = echarts.init(document.getElementById('chart'));
+
+        // 配置选项
+        const option = {
+            series: {
+                type: 'sunburst',
+                data: data.children,
+                radius: [0, '95%'],
+                center: ['50%', '50%'],
+                sort: null,
+                emphasis: {
+                    focus: 'ancestor'
+                },
+                levels: [
+                    {},
+                    {
+                        r0: '15%',
+                        r: '35%',
+                        itemStyle: {
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        },
+                        label: {
+                            rotate: 'tangential'
+                        }
+                    },
+                    {
+                        r0: '35%',
+                        r: '70%',
+                        label: {
+                            align: 'right'
+                        }
+                    },
+                    {
+                        r0: '70%',
+                        r: '72%',
+                        label: {
+                            position: 'outside',
+                            padding: 3,
+                            silent: false,
+                            fontSize: 10
+                        },
+                        itemStyle: {
+                            borderWidth: 3,
+                            borderColor: '#fff'
+                        }
+                    }
+                ],
+                label: {
+                    show: true,
+                    color: '#333',
+                    fontSize: 12
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    if (params.data.avg_salary) {
+                        return `<strong>${params.data.name}</strong><br/>
+                                岗位数量: ${params.data.value}<br/>
+                                平均薪资: ${params.data.avg_salary}元`;
+                    } else {
+                        return `<strong>${params.data.name}</strong><br/>岗位数量: ${params.data.value}`;
+                    }
+                }
+            }
+        };
+
+        // 设置配置项
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>
