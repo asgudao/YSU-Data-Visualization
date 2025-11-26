@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Encode 基础用法：映射到坐标轴</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: space-around; padding: 20px; }
+        .chart-container { width: 45%; height: 500px; border: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+<div id="chart1" class="chart-container"></div>
+<div id="chart2" class="chart-container"></div>
+
+<script>
+    // --- 准备共享的数据 ---
+    const dataset = {
+
+        // 定义维度名称
+        dimensions: ['product', 'sales', 'price'],
+        source: [
+            { product: '衬衫', sales: 120, price: 90 },
+            { product: '裤子', sales: 200, price: 150 },
+            { product: '高跟鞋', sales: 150, price: 180 },
+            { product: '帽子', sales: 80, price: 55 }
+        ]
+    };
+
+    // 竖向条形图
+    var chart1 = echarts.init(document.getElementById('chart1'));
+    var option1 = {
+        title: {
+            text: '竖向条形图',
+            subtext: 'x: product, y: sales'
+        },
+        legend: { data: ['销量'] },
+        tooltip: { trigger: 'axis' },
+        dataset: dataset,
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            encode: {
+                // 将 'product' 维度的数据映射到 x 轴
+                x: 'product',
+                // 将 'sales' 维度的数据映射到 y 轴
+                y: 'sales'
+            }
+        }]
+    };
+    chart1.setOption(option1);
+
+
+    // 横向条形图
+    var chart2 = echarts.init(document.getElementById('chart2'));
+    var option2 = {
+        title: {
+            text: '横向条形图 (交换X/Y轴)',
+            subtext: 'x: price, y: product'
+        },
+        legend: { data: ['价格'] },
+        tooltip: { trigger: 'axis' },
+        dataset: dataset,
+        xAxis: {
+            type: 'value'
+        },
+        yAxis: {
+            type: 'category'
+        },
+        series: [{
+            name: '价格',
+            type: 'bar',
+            encode: {
+                // 将 'price' 维度的数据映射到 x 轴
+                x: 'price',
+                // 将 'product' 维度的数据映射到 y 轴
+                y: 'product'
+            }
+        }]
+    };
+    chart2.setOption(option2);
+</script>
+</body>
+</html>

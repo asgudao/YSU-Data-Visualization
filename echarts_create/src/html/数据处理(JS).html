@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>datasetJS</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;       /* 垂直居中 */
+            justify-content: center;   /* 水平居中 */
+            background: #f5f7fa;
+        }
+        #main {
+            width: 900px;
+            height: 520px;
+            background: beige;
+            box-shadow: 0 4px 16px 0 rgba(0,0,0,0.06);
+            border-radius: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- 定义图表容器 -->
+<div id="main"></div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
+
+
+        legend: {
+            data: ['电子产品', '家居用品', '食品', '服装'],
+            orient: 'horizontal',
+            bottom: '1%',
+            textStyle: { color: '#666', fontSize: 14 }
+        },
+
+        dataset: {
+
+            // source: [
+            //     ['地区', '电子产品', '家居用品', '食品', '服装'],
+            //     ['北京', 120, 85, 70, 68],
+            //     ['上海', 95, 120, 82, 110],
+            //     ['广州', 78, 105, 100, 95],
+            //     ['深圳', 135, 98, 90, 70],
+            //     ['成都', 110, 87, 93, 102],
+            //     ['杭州', 90, 100, 77, 85],
+            //     ['西安', 80, 90, 99, 80],
+            //     ['武汉', 100, 95, 88, 93]
+            // ]
+
+
+            //    每一行数据现在是一个 JavaScript 对象。
+            //    对象的 'key' 对应维度名, 'value' 对应数据值，这种格式可读性更强，也更接近常见的 API 返回格式。
+            source: [
+                { '地区': '北京', '电子产品': 120, '家居用品': 85, '食品': 70, '服装': 68 },
+                { '地区': '上海', '电子产品': 95, '家居用品': 120, '食品': 82, '服装': 110 },
+                { '地区': '广州', '电子产品': 78, '家居用品': 105, '食品': 100, '服装': 95 },
+                { '地区': '深圳', '电子产品': 135, '家居用品': 98, '食品': 90, '服装': 70 },
+                { '地区': '成都', '电子产品': 110, '家居用品': 87, '食品': 93, '服装': 102 },
+                { '地区': '杭州', '电子产品': 90, '家居用品': 100, '食品': 77, '服装': 85 },
+                { '地区': '西安', '电子产品': 80, '家居用品': 90, '食品': 99, '服装': 80 },
+                { '地区': '武汉', '电子产品': 100, '家居用品': 95, '食品': 88, '服装': 93 }
+            ]
+        },
+
+        //    echarts会自动将 '地区' 维度的数据作为 X 轴的类目。
+        //    对于每个 series, 它会用 series.name (如 '电子产品') 去匹配 dataset 对象中的 key，并取其 value 作为 Y 轴数据。
+
+        xAxis: {
+            type: 'category',
+            name: '地区1',
+        },
+        yAxis: {},
+        series: [
+            {
+
+                name: '电子产品',
+                type: 'bar',
+                label: { show: true, position: 'top' }
+            },
+            {
+                name: '家居用品',
+                type: 'bar',
+                label: { show: true, position: 'top' }
+            },
+            {
+                // 备用映射机制
+                name: '食品',
+                type: 'bar',
+                label: { show: true, position: 'top' }
+            },
+            {
+                name: '服装',
+                type: 'bar',
+                label: { show: true, position: 'top' }
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>
