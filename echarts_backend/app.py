@@ -42,7 +42,7 @@ def parse_salary(s):
 @app.route("/api/city")
 def get_city_data():
 
-    df = pd.read_excel('data.xlsx')
+    df = pd.read_excel('it 行业招聘数据.xlsx')
 
     # 解析薪资
     df[['min','max']] = df['薪资文本'].apply(lambda x: pd.Series(parse_salary(x)))
