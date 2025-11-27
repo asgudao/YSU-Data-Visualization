@@ -179,35 +179,34 @@
 
     <!-- 主内容区域：网格布局展示所有图表 -->
     <div class="container">
-        <div class="dashboard-grid">
+        <div class="dashboard-grid" style="display: flex;flex-wrap: wrap;gap: 10px;">
             <!-- 旭日图：岗位类型与人才要求 -->
-            <div class="chart-card">
+            <div class="chart-card" style="width: 400px;height: 400px;">
                     <iframe class="chart-frame" src="echarts_sunburst.html" frameborder="0"></iframe>
             </div>
 
             <!-- 网络图：城市-职位网络关系 -->
-            <div class="chart-card">
+            <div class="chart-card" style="width: 800px;">
                     <iframe class="chart-frame" src="echarts_network.html" frameborder="0"></iframe>
             </div>
-
-            <!-- 树状图：企业属性层次化影响 -->
-            <div class="chart-card">
-                    <iframe class="chart-frame" src="echarts_treemap.html" frameborder="0"></iframe>
-            </div>
-
             <!-- 平行坐标图：学历-经验-薪资 -->
-            <div class="chart-card">
+            <div class="chart-card" style="width: 700px;height: 400px;">
                     <iframe class="chart-frame" src="echarts_parallel.html" frameborder="0"></iframe>
             </div>
 
-            <!-- 桑基图：岗位流向趋势 -->
-            <div class="chart-card">
-                    <iframe class="chart-frame" src="echarts_sankey.html" frameborder="0"></iframe>
+            <!-- 雷达图：福利待遇覆盖对比 -->
+            <div class="chart-card" style="width: 450px;height: 400px;">
+                    <iframe class="chart-frame" src="echarts_radar.html" frameborder="0"></iframe>
+            </div>
+            <!-- 树状图：企业属性层次化影响 -->
+            <div class="chart-card" style="width: 1200px;height: 400px;">
+                    <iframe class="chart-frame" src="echarts_treemap.html" frameborder="0"></iframe>
             </div>
 
-            <!-- 雷达图：福利待遇覆盖对比 -->
-            <div class="chart-card">
-                    <iframe class="chart-frame" src="echarts_radar.html" frameborder="0"></iframe>
+
+            <!-- 桑基图：岗位流向趋势 -->
+            <div class="chart-card" style="width: 1200px;height: 400px;">
+                    <iframe class="chart-frame" src="echarts_sankey.html" frameborder="0"></iframe>
             </div>
         </div>
     </div>
