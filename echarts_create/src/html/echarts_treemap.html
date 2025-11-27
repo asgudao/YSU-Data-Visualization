@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECharts 树状图 - 企业属性分析</title>
+    <!-- <title>ECharts 树状图 - 企业属性分析</title> -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
         }
         .container {
             width: 100%;
@@ -34,9 +33,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="title">
-            <i class="fas fa-sitemap"></i> 企业属性对招聘策略的层次化影响分析
-        </div>
         <div id="chart"></div>
     </div>
 
@@ -82,7 +78,7 @@
                     {name: '500-1000人', value: 2678, avg_salary: 20800, itemStyle: {color: '#F39C12'}},
                     {name: '1000-5000人', value: 1876, avg_salary: 22500, itemStyle: {color: '#8E44AD'}},
                     {name: '5000-10000人', value: 876, avg_salary: 24800, itemStyle: {color: '#16A085'}},
-                    {name: '10000人以上', value: 365, avg_salary": 28500, itemStyle: {color: '#E67E22'}}
+                    {name: '10000人以上', value: 365, avg_salary: 28500, itemStyle: {color: '#E67E22'}}
                 ]
             },
             {
@@ -92,11 +88,11 @@
                 children: [
                     {name: '少于50人', value: 567, avg_salary: 19800, itemStyle: {color: '#2C3E50'}},
                     {name: '50-150人', value: 1234, avg_salary: 22500, itemStyle: {color: '#E74C3C'}},
-                    {name: '150-500人', value: 1876, avg_salary": 24800, itemStyle: {color: '#27AE60'}},
-                    {name: '500-1000人', value: 1567, avg_salary": 26500, itemStyle: {color: '#F39C12'}},
-                    {name: '1000-5000人', value": 987, avg_salary": 28500, itemStyle: {color: '#8E44AD'}},
-                    {name: '5000-10000人', value": 345, avg_salary": 32000, itemStyle: {color: '#16A085'}},
-                    {name: '10000人以上', value": 163, avg_salary": 38000, itemStyle: {color: '#E67E22'}}
+                    {name: '150-500人', value: 1876, avg_salary: 24800, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 1567, avg_salary: 26500, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value: 987, avg_salary: 28500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value: 345, avg_salary: 32000, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value: 163, avg_salary: 38000, itemStyle: {color: '#E67E22'}}
                 ]
             },
             {
@@ -104,13 +100,13 @@
                 value: 6418,
                 avg_salary: 22800,
                 children: [
-                    {name: '少于50人', value": 654, avg_salary": 18500, itemStyle: {color: '#2C3E50'}},
-                    {name: '50-150人', value": 1456, avg_salary": 20800, itemStyle: {color: '#E74C3C'}},
-                    {name: '150-500人', value": 1765, avg_salary": 23200, itemStyle: {color: '#27AE60'}},
-                    {name: '500-1000人', value": 1234, avg_salary": 24800, itemStyle: {color: '#F39C12'}},
-                    {name: '1000-5000人', value": 876, avg_salary": 26500, itemStyle: {color: '#8E44AD'}},
-                    {name: '5000-10000人', value": 345, avg_salary": 29500, itemStyle: {color: '#16A085'}},
-                    {name: '10000人以上', value": 88, avg_salary": 35000, itemStyle: {color: '#E67E22'}}
+                    {name: '少于50人', value: 654, avg_salary: 18500, itemStyle: {color: '#2C3E50'}},
+                    {name: '50-150人', value: 1456, avg_salary: 20800, itemStyle: {color: '#E74C3C'}},
+                    {name: '150-500人', value: 1765, avg_salary: 23200, itemStyle: {color: '#27AE60'}},
+                    {name: '500-1000人', value: 1234, avg_salary: 24800, itemStyle: {color: '#F39C12'}},
+                    {name: '1000-5000人', value: 876, avg_salary: 26500, itemStyle: {color: '#8E44AD'}},
+                    {name: '5000-10000人', value: 345, avg_salary: 29500, itemStyle: {color: '#16A085'}},
+                    {name: '10000人以上', value: 88, avg_salary: 35000, itemStyle: {color: '#E67E22'}}
                 ]
             }
         ];
@@ -139,7 +135,6 @@
                     left: 10,
                     itemStyle: {
                         color: '#2C3E50',
-                        borderColor: '#fff',
                         borderWidth: 2,
                         textStyle: {
                             color: '#fff'
@@ -158,27 +153,15 @@
                     show: true,
                     height: 30,
                     fontSize: 14,
-                    color: '#fff'
+                    color: '#fff',
+                    backgroundColor: '#0073ad'
                 },
                 itemStyle: {
                     borderColor: '#fff',
-                    borderWidth: 2,
-                    gapWidth: 2
+                    borderWidth: 1,
+                    gapWidth: 1,
                 },
-                levels: [
-                    {
-                        itemStyle: {
-                            borderWidth: 0,
-                            gapWidth: 2
-                        }
-                    },
-                    {
-                        itemStyle: {
-                            borderWidth: 2,
-                            gapWidth: 1
-                        }
-                    }
-                ]
+                
             }]
         };
 

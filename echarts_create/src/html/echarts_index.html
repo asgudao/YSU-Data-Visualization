@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT行业招聘数据可视化分析报告 - ECharts版本</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>IT行业招聘数据可视化分析报告</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -15,8 +15,6 @@
             --medium-gray: #BDC3C7;
             --dark-gray: #7F8C8D;
             --white: #FFFFFF;
-            --success-color: #27AE60;
-            --warning-color: #F39C12;
         }
 
         * {
@@ -27,453 +25,211 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             color: var(--primary-color);
-            background-color: var(--white);
+            background-color: var(--light-gray);
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* 页面标题区优化 */
         header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: var(--white);
-            padding: 60px 0;
+            padding: 25px 0;
             text-align: center;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 800px;
+            font-size: 1rem;
+            opacity: 0.95;
+            max-width: 900px;
             margin: 0 auto;
+            font-weight: 300;
         }
 
-        .section {
-            padding: 80px 0;
+        /* 主内容网格布局优化 */
+        .dashboard-grid {
+            display: grid;
+            gap: 25px;
+            margin: 30px 0;
         }
 
-        .section:nth-child(even) {
-            background-color: var(--light-gray);
+        /* 优化卡片样式 */
+        .chart-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 20px;
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        /* 图表标题样式优化 */
+        .chart-card-header {
+            background: transparent;
             color: var(--primary-color);
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .section-description {
-            text-align: center;
+        .chart-card-icon {
+            color: var(--accent-color);
             font-size: 1.1rem;
-            color: var(--dark-gray);
-            max-width: 800px;
-            margin: 0 auto 60px;
         }
 
+        /* 图表容器样式 */
         .chart-container {
-            background: var(--white);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin: 40px 0;
+            flex: 1;
+            position: relative;
+            width: 100%;
             overflow: hidden;
         }
 
-        .chart-title {
-            background: var(--primary-color);
-            color: var(--white);
-            padding: 20px;
-            font-size: 1.3rem;
-            font-weight: 600;
+        .chart-frame {
+            width: 100%;
+            height: 400px;
+            border: none;
+            transition: opacity 0.3s ease;
         }
 
-        .chart-content {
-            padding: 20px;
-            height: 600px;
+        .chart-card:hover .chart-frame {
+            opacity: 0.98;
         }
 
-        .insight-box {
-            background: var(--white);
-            border-left: 5px solid var(--accent-color);
-            padding: 30px;
-            margin: 30px 0;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .insight-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        .insight-content {
-            color: var(--secondary-color);
-            line-height: 1.8;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: var(--dark-gray);
-            font-size: 1rem;
-        }
-
-        .download-section {
-            text-align: center;
-            padding: 60px 0;
-            background: var(--light-gray);
-        }
-
-        .download-btn {
-            display: inline-block;
-            background: var(--accent-color);
-            color: var(--white);
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 10px;
-        }
-
-        .download-btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        footer {
-            background: var(--primary-color);
-            color: var(--white);
-            text-align: center;
-            padding: 40px 0;
+        /* 响应式调整优化 */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .chart-frame {
+                height: 280px;
+            }
         }
 
         @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
             h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
-            .section-title {
-                font-size: 2rem;
+            .chart-frame {
+                height: 250px;
             }
-            
-            .chart-content {
-                height: 400px;
+        }
+
+        /* 页脚优化 */
+        footer {
+            background: var(--primary-color);
+            text-align: center;
+            padding: 15px 0;
+            font-size: 0.85rem;
+            margin-top: 30px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        /* 添加页面加载动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 平滑滚动效果 */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>IT行业招聘数据可视化分析报告</h1>
-            <p class="subtitle">基于ECharts的层次和网络数据可视化分析</p>
-        </div>
-    </header>
 
-    <!-- 数据概览 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">数据概览</h2>
-            <p class="section-description">本次分析基于全国349个城市的IT行业招聘数据，涵盖110,176个招聘岗位，从多个维度深度解析IT行业的人才需求特征。</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">110,176</div>
-                    <div class="stat-label">总招聘岗位数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">349</div>
-                    <div class="stat-label">覆盖城市数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">15,221</div>
-                    <div class="stat-label">平均薪资(元/月)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">主要职位类别</div>
-                </div>
+    <!-- 主内容区域：网格布局展示所有图表 -->
+    <div class="container">
+        <div class="dashboard-grid">
+            <!-- 旭日图：岗位类型与人才要求 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_sunburst.html" frameborder="0"></iframe>
+            </div>
+
+            <!-- 网络图：城市-职位网络关系 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_network.html" frameborder="0"></iframe>
+            </div>
+
+            <!-- 树状图：企业属性层次化影响 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_treemap.html" frameborder="0"></iframe>
+            </div>
+
+            <!-- 平行坐标图：学历-经验-薪资 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_parallel.html" frameborder="0"></iframe>
+            </div>
+
+            <!-- 桑基图：岗位流向趋势 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_sankey.html" frameborder="0"></iframe>
+            </div>
+
+            <!-- 雷达图：福利待遇覆盖对比 -->
+            <div class="chart-card">
+                    <iframe class="chart-frame" src="echarts_radar.html" frameborder="0"></iframe>
             </div>
         </div>
-    </section>
-
-    <!-- 岗位类型与薪资、学历、工作年限的多维关联分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">岗位类型与人才要求的多维关联分析</h2>
-            <p class="section-description">通过旭日图展示不同岗位类型对学历、工作经验的要求层次结构，以及对应的薪资水平分布。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-sun"></i> 岗位类型与人才要求层次关系图
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_sunburst.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">关键洞察</div>
-                <div class="insight-content">
-                    分析显示，<strong>软件工程师</strong>和<strong>测试工程师</strong>是IT行业需求量最大的两个职位类别。在学历要求方面，<strong>本科</strong>学历占据主导地位，而<strong>硕士学历</strong>在职业发展中的性价比最高，3年工作经验后的平均薪资达到28,000元/月。工作经验与薪资呈现明显的正相关关系，5年及以上经验的软件工程师平均薪资可达35,000元/月。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 地域维度下的行业招聘生态分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">地域维度下的行业招聘生态分析</h2>
-            <p class="section-description">通过网络关系图揭示不同城市与职位类型之间的关联强度，展现IT行业在地域上的分布特征。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-network-wired"></i> 城市-职位网络关系图
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_network.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">地域分布特征</div>
-                <div class="insight-content">
-                    <strong>上海、深圳、广州、北京</strong>四大一线城市构成了IT行业的核心招聘市场，合计占总招聘岗位的48.3%。上海以19,190个岗位位居首位，主要集中<strong>后端开发</strong>和<strong>人工智能</strong>等高端技术岗位。二线城市中，<strong>杭州</strong>表现突出，以5,478个岗位位列第五，主要发展<strong>前端/移动开发</strong>和<strong>数据</strong>类岗位。地域差异明显，一线城市平均薪资达到18,500元/月，而非一线城市平均薪资为12,800元/月，薪资差距达44.5%。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 企业属性对招聘策略的影响分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">企业属性对招聘策略的影响分析</h2>
-            <p class="section-description">通过树状图分析不同企业类型、规模对学历要求、薪资水平的层次化影响。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-sitemap"></i> 企业属性层次化影响分析
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_treemap.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">企业属性影响</div>
-                <div class="insight-content">
-                    <strong>民营企业</strong>占据IT行业招聘的主导地位，占比60.2%，但薪资水平相对较低，平均薪资为14,200元/月。<strong>外资企业（欧美）</strong>虽然仅占6.1%的市场份额，但提供了最高的薪资水平，平均薪资达到24,500元/月。<strong>国企</strong>在福利待遇方面表现突出，五险一金覆盖率达到81.8%，远高于民营企业的65.3%。公司规模与薪资水平呈现正相关关系，10000人以上的大型企业平均薪资达到22,800元/月，而少于50人的小型企业平均薪资仅为11,200元/月。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 学历与工作经验在职业发展中的"性价比"分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">学历与工作经验在职业发展中的"性价比"分析</h2>
-            <p class="section-description">通过平行坐标图分析不同学历背景下，工作经验积累对薪资增长的效率影响。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-project-diagram"></i> 学历-经验-薪资平行坐标图
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_parallel.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">性价比分析</div>
-                <div class="insight-content">
-                    数据显示，<strong>硕士学历</strong>在职业发展中的性价比最高，3年工作经验后的平均薪资达到28,000元/月，相比本科同经验水平的22,000元/月提升27.3%。<strong>博士学历</strong>虽然起薪较高，但投资回收期较长，需要5年以上工作经验才能体现明显优势。<strong>大专学历</strong>的职业发展天花板较为明显，即使拥有10年以上经验，平均薪资也难以超过18,000元/月。经验积累对不同学历群体的影响差异显著，本科学历群体每增加1年工作经验，薪资平均增长8.5%，而硕士学历群体的增长率达到12.3%。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 新兴岗位与传统岗位的招聘趋势对比分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">新兴岗位与传统岗位的招聘趋势对比分析</h2>
-            <p class="section-description">通过桑基图展示新兴技术岗位与传统IT岗位之间的招聘流向和薪资差异。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-exchange-alt"></i> 岗位流向趋势分析
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_sankey.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">岗位趋势洞察</div>
-                <div class="insight-content">
-                    <strong>人工智能</strong>和<strong>数据</strong>类新兴岗位展现出强劲的增长势头，虽然当前占比较低（分别为8.3%和4.0%），但薪资水平显著高于传统岗位，平均薪资分别达到32,000元/月和28,500元/月。<strong>后端开发</strong>作为传统核心岗位，仍然是最大的招聘类别（21.1%），但薪资增长趋于平缓。<strong>测试</strong>和<strong>运维/技术支持</strong>等传统岗位面临薪资天花板，平均薪资分别为15,800元/月和16,200元/月，远低于新兴技术岗位。人才流向呈现明显的技术升级趋势，传统岗位向新兴岗位的转换率达到23.7%。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 福利待遇与岗位吸引力的关联及影响分析 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">福利待遇与岗位吸引力的关联及影响分析</h2>
-            <p class="section-description">通过雷达图对比不同企业类型在福利待遇方面的覆盖差异，分析福利对岗位吸引力的影响。</p>
-            
-            <div class="chart-container">
-                <div class="chart-title">
-                    <i class="fas fa-bullseye"></i> 福利待遇覆盖对比分析
-                </div>
-                <div class="chart-content">
-                    <iframe src="echarts_radar.html" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">福利策略分析</div>
-                <div class="insight-content">
-                    <strong>五险一金</strong>是IT行业最基础的福利配置，整体覆盖率达到69.8%。<strong>国企</strong>在福利待遇方面表现最为全面，除五险一金外，带薪年假、定期体检、绩效奖金等福利的覆盖率均超过50%。<strong>外资企业（欧美）</strong>在弹性工作和股票期权等现代化福利方面领先，股票期权覆盖率达到15.3%，是民营企业的3.2倍。<strong>已上市公司</strong>在员工旅游、定期体检等企业文化类福利方面投入较大，员工旅游覆盖率达到28.7%。福利待遇与岗位吸引力呈现显著正相关，提供全面福利的企业岗位投递率平均高出35.6%。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 下载区域 -->
-    <section class="download-section">
-        <div class="container">
-            <h2 class="section-title">数据下载</h2>
-            <p class="section-description">为确保分析结果的可追溯性和可验证性，提供原始数据和分析结果的下载。</p>
-            
-            <a href="cleaned_it_job_data.csv" class="download-btn" download>
-                <i class="fas fa-download"></i> 下载清洗后数据 (CSV)
-            </a>
-            <a href="echarts_sunburst.html" class="download-btn" download>
-                <i class="fas fa-chart-pie"></i> 下载旭日图
-            </a>
-            <a href="echarts_network.html" class="download-btn" download>
-                <i class="fas fa-project-diagram"></i> 下载网络图
-            </a>
-        </div>
-    </section>
-
-    <!-- 结论与建议 -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">结论与建议</h2>
-            
-            <div class="insight-box">
-                <div class="insight-title">对求职者的建议</div>
-                <div class="insight-content">
-                    1. <strong>技能升级</strong>：重点关注人工智能、大数据等新兴技术领域，这些岗位薪资增长潜力更大<br>
-                    2. <strong>地域选择</strong>：优先考虑一线城市（北上广深）和杭州等新一线城市，这些地区提供更多高薪岗位<br>
-                    3. <strong>学历规划</strong>：硕士学历性价比最高，建议在工作3-5年后考虑深造<br>
-                    4. <strong>企业选择</strong>：外资企业在薪资待遇方面具有优势，国企在福利保障方面更为全面
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">对企业的建议</div>
-                <div class="insight-content">
-                    1. <strong>薪资策略</strong>：根据企业类型和规模制定差异化薪资策略，提升在目标人才群体中的竞争力<br>
-                    2. <strong>福利优化</strong>：完善福利体系，特别是五险一金、带薪年假等基础福利，提升岗位吸引力<br>
-                    3. <strong>人才培养</strong>：建立内部培训体系，帮助传统岗位员工向新兴技术岗位转型<br>
-                    4. <strong>地域布局</strong>：根据业务需求在人才密集地区合理配置招聘资源
-                </div>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-title">对行业的启示</div>
-                <div class="insight-content">
-                    IT行业正经历从传统技术向新兴技术的结构性转型，人工智能、大数据等领域的人才需求将持续增长。地域发展不均衡问题依然存在，需要政策引导促进人才合理分布。学历与经验的组合效应对职业发展具有重要影响，终身学习成为必然趋势。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 IT行业招聘数据可视化分析报告 | 基于ECharts层次和网络数据可视化技术</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // 自动调整iframe高度
-        function resizeIframes() {
-            const iframes = document.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                iframe.onload = function() {
-                    try {
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        const height = iframeDoc.body.scrollHeight;
-                        iframe.style.height = height + 'px';
-                    } catch (e) {
-                        // 跨域限制，使用默认高度
-                        iframe.style.height = '600px';
-                    }
-                };
-            });
-        }
-
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            resizeIframes();
-            
-            // 平滑滚动
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
+            // 优化的页面动画效果
+            const cards = document.querySelectorAll('.chart-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+                card.style.animationDelay = `${index * 150}ms`;
+            });
+
+            // 图表加载完成检测
+            const iframes = document.querySelectorAll('.chart-frame');
+            iframes.forEach(iframe => {
+                iframe.onload = function() {
+                    this.style.opacity = '1';
+                };
             });
         });
     </script>
