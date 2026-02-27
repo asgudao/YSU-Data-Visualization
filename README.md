@@ -103,8 +103,6 @@ npm run process-data
 4. 推送分支：`git push origin feature/xxx`
 5. 提交 Pull Request
 
-## 许可证
-本项目采用 [MIT License](LICENSE) 开源许可证，详情见 LICENSE 文件。
 
 ## 致谢
 - 感谢 ECharts/Chart.js 等可视化库提供的技术支持
